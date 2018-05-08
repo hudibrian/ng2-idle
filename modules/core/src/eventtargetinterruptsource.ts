@@ -1,10 +1,5 @@
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/throttleTime';
-import 'rxjs/add/observable/fromEvent';
-import 'rxjs/add/observable/merge';
-
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+import { Observable, Subscription, fromEvent, merge } from 'rxjs';
+import { filter, throttleTime } from 'rxjs/operators';
 
 import { InterruptArgs } from './interruptargs';
 import { InterruptSource } from './interruptsource';
@@ -36,14 +31,21 @@ export class EventTargetInterruptSource extends InterruptSource {
   protected throttleDelay: number;
   protected passive: boolean;
 
-  constructor(protected target: any, protected events: string, options?: number | EventTargetInterruptOptions) {
+  constructor(
+    protected target: any,
+    protected events: string,
+    options?: number | EventTargetInterruptOptions
+  ) {
     super(null, null);
 
     if (typeof options === 'number') {
       options = { throttleDelay: options, passive: false };
     }
 
-    options = options || { throttleDelay: defaultThrottleDelay, passive: false };
+    options = options || {
+      passive: false,
+      throttleDelay: defaultThrottleDelay
+    };
 
     if (options.throttleDelay === undefined || options.throttleDelay === null) {
       options.throttleDelay = defaultThrottleDelay;
@@ -53,16 +55,22 @@ export class EventTargetInterruptSource extends InterruptSource {
     this.passive = !!options.passive;
 
     const opts = this.passive ? { passive: true } : null;
-    const fromEvents = events.split(' ').map(eventName => Observable.fromEvent<any>(target, eventName, opts));
-    this.eventSrc = Observable.merge(...fromEvents);
-    this.eventSrc = this.eventSrc.filter(innerArgs => !this.filterEvent(innerArgs));
+    const fromEvents = events
+      .split(' ')
+      .map(eventName => fromEvent<any>(target, eventName, opts));
+    this.eventSrc = merge(...fromEvents);
+    this.eventSrc = this.eventSrc.pipe(
+      filter(innerArgs => !this.filterEvent(innerArgs))
+    );
     if (this.throttleDelay > 0) {
-      this.eventSrc = this.eventSrc.throttleTime(this.throttleDelay);
+      this.eventSrc = this.eventSrc.pipe(throttleTime(this.throttleDelay));
     }
 
-    let handler = (innerArgs: any) => this.onInterrupt.emit(new InterruptArgs(this, innerArgs));
+    let handler = (innerArgs: any) =>
+      this.onInterrupt.emit(new InterruptArgs(this, innerArgs));
 
-    this.attachFn = () => this.eventSubscription = this.eventSrc.subscribe(handler);
+    this.attachFn = () =>
+      (this.eventSubscription = this.eventSrc.subscribe(handler));
 
     this.detachFn = () => this.eventSubscription.unsubscribe();
   }
