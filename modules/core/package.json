@@ -1,5 +1,5 @@
 {
-  "name": "@ng2-idle/core",
+  "name": "ng2-idle-core",
   "version": "0.0.0-PLACEHOLDER",
   "description": "ng-idle for Angular 2+ core module",
   "main": "bundles/core.umd.js",
