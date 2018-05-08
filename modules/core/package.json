@@ -1,5 +1,5 @@
 {
-  "name": "@ng-idle/core",
+  "name": "@ng2-idle/core",
   "version": "0.0.0-PLACEHOLDER",
   "description": "ng-idle for Angular 2+ core module",
   "main": "bundles/core.umd.js",
@@ -7,7 +7,7 @@
   "typings": "index.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/HackedByChinese/ng2-idle.git"
+    "url": "git+https://github.com/hudibrian/ng2-idle.git"
   },
   "keywords": [
     "angular",
@@ -22,7 +22,7 @@
   "author": "Mike Grabski <me@mikegrabski.com> (http://mikegrabski.com/)",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/HackedByChinese/ng2-idle.git/issues"
+    "url": "https://github.com/hudibrian/ng2-idle.git/issues"
   },
-  "homepage": "https://github.com/HackedByChinese/ng2-idle.git#readme"
+  "homepage": "https://github.com/hudibrian/ng2-idle.git#readme"
 }

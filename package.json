@@ -1,25 +1,31 @@
 {
-  "name": "ng-idle-src",
-  "version": "6.0.0-beta.16",
+  "name": "@ng2-idle/ng-idle-src",
+  "version": "6.0.1",
   "private": true,
-  "description": "A module for responding to idle users in Angular 6+ applications.",
+  "description":
+    "A module for responding to idle users in Angular 6+ applications.",
   "scripts": {
-    "clean": "npm cache clean && rimraf node_modules && rimraf coverage && rimraf dist && rimraf .tmp",
+    "clean":
+      "npm cache clean && rimraf node_modules && rimraf coverage && rimraf dist && rimraf .tmp",
     "clean:dist": "rimraf dist && rimraf .tmp",
     "lint": "tslint -c tslint.json 'modules/**/*.ts'",
     "ngc:es5": "node_modules/.bin/ngc -p modules/tsconfig.es5.json",
     "postngc:es5": "cp -R .tmp/es5 dist && rimraf modules/**/*.ngfactory.ts",
     "ngc:es6": "node_modules/.bin/ngc -p modules/tsconfig.es6.json",
-    "postngc:es6": "cp -R .tmp/esm dist/esm && rimraf modules/**/*.ngfactory.ts",
-    "bundle:umd": "find ./modules -name 'rollup*.config.js' -exec ./node_modules/.bin/rollup -c {} \\;",
+    "postngc:es6":
+      "cp -R .tmp/esm dist/esm && rimraf modules/**/*.ngfactory.ts",
+    "bundle:umd":
+      "find ./modules -name 'rollup*.config.js' -exec ./node_modules/.bin/rollup -c {} \\;",
     "bundle:umd:min": "npm run bundle:umd --mode=ugly",
     "bundle": "npm run bundle:umd && npm run bundle:umd:min",
     "prebuild": "npm run clean:dist",
     "build": "npm run lint && npm run ngc:es5 && npm run bundle",
     "postbuild": "npm run copyassets && npm run packagejson",
-    "copyassets": "for d in ./dist/*; do cp LICENSE README.md CHANGELOG.md $d; done",
+    "copyassets":
+      "for d in ./dist/*; do cp LICENSE README.md CHANGELOG.md $d; done",
     "packagejson": "node ./scripts/write-package-json.js",
-    "changelog": "node_modules/.bin/conventional-changelog -i ./CHANGELOG.md -s -p angular",
+    "changelog":
+      "node_modules/.bin/conventional-changelog -i ./CHANGELOG.md -s -p angular",
     "test": "node_modules/.bin/karma start",
     "watch:test": "npm run test -- --auto-watch --no-single-run",
     "coverage": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls"
